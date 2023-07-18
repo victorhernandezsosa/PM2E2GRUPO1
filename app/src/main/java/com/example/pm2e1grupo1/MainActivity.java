@@ -190,7 +190,6 @@ public class MainActivity extends AppCompatActivity {
         else
         {
             dispatchTakePictureIntent();
-            //TomarFoto();
         }
     }
 
