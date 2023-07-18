@@ -1,14 +1,17 @@
 package com.example.pm2e1grupo1;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -54,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
     static final  int REQUEST_IMAGE = 101;
     static final  int PETICION_ACCESS_CAM = 201;
 
+    private LocationManager locationManager;
+
     String currentPhotoPath;
 
     private RequestQueue requestQueue;
@@ -71,6 +76,12 @@ public class MainActivity extends AppCompatActivity {
         latitud = (EditText) findViewById(R.id.latitud);
         longitud = (EditText) findViewById(R.id.longitud);
         imagen = (ImageView) findViewById(R.id.imagen);
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            mostrarMensajeGPSInactivo();
+        }
 
         botonfoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +105,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void mostrarMensajeGPSInactivo() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("GPS Inactivo");
+        builder.setMessage("El GPS no está activo. Por favor, activalo");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Abrir la configuración de ubicación del dispositivo
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton("Cancelar", null);
+        builder.show();
     }
 
     private void salvarcontactos() {
