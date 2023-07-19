@@ -77,8 +77,6 @@ public class MostrarContactos extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
 
-
-
                String objetosel = (String) adapterView.getItemAtPosition(i);
 
                 Toast.makeText(getApplicationContext(),"Seleccionaste: " +objetosel,Toast.LENGTH_SHORT).show();
@@ -294,7 +292,8 @@ public class MostrarContactos extends AppCompatActivity {
 
 
 
-                            contaclist.add(contac);
+                            list.add(contac);
+                            arreglocontac.add(contac.getNombres());
                         }
 
                         list = contaclist;
